@@ -33,19 +33,26 @@ def attack_pok(message):
     else:
             bot.send_message(message.chat.id, "Чтобы атаковать, нужно ответить на сообщения того, кого хочешь атаковать")
 
+
+@bot.message_handler(commands=['feed'])
+def feed_pokemon(message):
+    username = message.from_user.username
+
+    if username in Pokemon.pokemons.keys():
+        pok = Pokemon.pokemons[username]
+        resultat = pok.feed()  
+        bot.send_message(message.chat.id, resultat)
+    else:
+        bot.reply_to(message, "У тебя ещё нет покемона! Создай его с помощью команды /go")
+
 @bot.message_handler(commands=['info'])
 def info(message):
-    # Если сообщение написано в ответ на чьё-то сообщение
     if message.reply_to_message:
         username = message.reply_to_message.from_user.username
-
-        # Проверяем, есть ли у этого пользователя покемон
         if username in Pokemon.pokemons.keys():
             pok = Pokemon.pokemons[username]
             img_url = pok.img_url
             info_text = pok.info()
-
-            # отправляем фото и инфу
             if img_url:
                 response = requests.get(img_url)
                 photo = BytesIO(response.content)
@@ -55,8 +62,6 @@ def info(message):
                 bot.send_message(message.chat.id, info_text)
         else:
             bot.reply_to(message, f"У @{username} ещё нет покемона!")
-
-    # Если не ответ — показываем информацию о своём покемоне
     else:
         username = message.from_user.username
         if username in Pokemon.pokemons.keys():

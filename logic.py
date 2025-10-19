@@ -1,5 +1,6 @@
 from random import randint
 import requests
+import datetime
 
 class Pokemon:
     pokemons = {}
@@ -7,6 +8,7 @@ class Pokemon:
     def __init__(self, pokemon_trainer):
         self.pokemon_trainer = pokemon_trainer   
         self.pokemon_number = randint(1, 1000)
+        self.last_feed_time = datetime.datetime.now()
         
         url = f'https://pokeapi.co/api/v2/pokemon/{self.pokemon_number}'
         response = requests.get(url)
@@ -15,19 +17,15 @@ class Pokemon:
             data = response.json()
             self.name = data['name']
             self.img_url = data['sprites']['front_default']
-            
-            # Берем HP и силу напрямую из API
             for stat in data['stats']:
                 if stat['stat']['name'] == 'hp':
                     self.hp = stat['base_stat']
                 if stat['stat']['name'] == 'attack':
                     self.power = stat['base_stat']
             
-            # Получаем типы покемона
             self.types = [type_info['type']['name'] for type_info in data['types']]
             
         else:
-            # Fallback значения если API не доступно
             self.name = 'Pikachu'
             self.img_url = ''
             self.hp = randint(30, 40)
@@ -59,13 +57,21 @@ class Pokemon:
             f"🎨 Тип: {types_str}\n"
             f"👾 Владелец: @{self.pokemon_trainer}"
         )
+    
+    def feed(self, feed_interval = 20, hp_increase = 10 ):
+        current_time = datetime.datetime.now() 
+        delta_time = datetime.timedelta(seconds=feed_interval)  
+        if (current_time - self.last_feed_time) > delta_time:
+            self.hp += hp_increase
+            self.last_feed_time = current_time
+            return f"Здоровье покемона увеличено. Текущее здоровье: {self.hp}"
+        else:
+            return f"Следующее время кормления покемона: {delta_time + self.last_feed_time}"
         
     def attack(self, enemy):
-        # Вычисляем разницу в силе
         power_difference = self.power - enemy.power
         
         if power_difference > 0:
-            # Если наша сила больше - отнимаем HP у противника на величину разницы
             damage = power_difference
             enemy.hp -= damage
             if enemy.hp <= 0:
@@ -74,7 +80,6 @@ class Pokemon:
             else:
                 return f"Сражение @{self.pokemon_trainer} с @{enemy.pokemon_trainer}! Разница в силе: {damage}. Здоровье: @{self.pokemon_trainer}: {self.hp} / @{enemy.pokemon_trainer}: {enemy.hp}"
         else:
-            # Если сила противника больше или равна - наш покемон получает урон
             damage = abs(power_difference)
             self.hp -= damage
             if self.hp <= 0:
