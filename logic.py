@@ -53,11 +53,11 @@ class Pokemon:
     def info(self):
         types_str = ", ".join(self.types)
         return (
-            f"Имя: {self.name.capitalize()}\n"
-            f"HP: {self.hp}\n"
-            f"Сила: {self.power}\n"
-            f"Тип: {types_str}\n"
-            f"Тренер: @{self.pokemon_trainer}"
+            f"📊 Имя: {self.name.capitalize()}\n"
+            f"❤️ HP: {self.hp}\n"
+            f"⚡ Сила: {self.power}\n"
+            f"🎨 Тип: {types_str}\n"
+            f"👾 Владелец: @{self.pokemon_trainer}"
         )
         
     def attack(self, enemy):
