@@ -49,6 +49,17 @@ class Pokemon:
 """
         return self.img_url, info_text
         
+
+    def info(self):
+        types_str = ", ".join(self.types)
+        return (
+            f"Имя: {self.name.capitalize()}\n"
+            f"HP: {self.hp}\n"
+            f"Сила: {self.power}\n"
+            f"Тип: {types_str}\n"
+            f"Тренер: @{self.pokemon_trainer}"
+        )
+        
     def attack(self, enemy):
         # Вычисляем разницу в силе
         power_difference = self.power - enemy.power
