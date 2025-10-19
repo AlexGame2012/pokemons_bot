@@ -60,10 +60,10 @@
 
 | Команда | Пример результата |
 |----------|-------------------|
-| `/go` | ![Создание покемона](https://github.com/username/pokemons_bot/blob/main/screenshots/go_command.png) |
-| `/feed` | ![Кормление покемона](https://github.com/username/pokemons_bot/blob/main/screenshots/feed_command.png) |
-| `/attack` | ![Сражение покемонов](https://github.com/username/pokemons_bot/blob/main/screenshots/attack_command.png) |
-| `/info` | ![Инфо о покемоне](https://github.com/username/pokemons_bot/blob/main/screenshots/info_command.png) |
+| `/go` | ![Создание покемона](https://i.imgur.com/eNqCDJh.png) |
+| `/feed` | ![Кормление покемона](https://i.imgur.com/RCtgLq2.png) |
+| `/attack` | ![Сражение покемонов](https://i.imgur.com/6SXk784.png) |
+| `/info` | ![Инфо о покемоне](https://i.imgur.com/JxdTJwO.png) |
 
 📂 Помести изображения в папку `/screenshots/` внутри проекта.  
 
